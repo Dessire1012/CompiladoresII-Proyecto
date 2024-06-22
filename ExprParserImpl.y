@@ -118,7 +118,7 @@ declarationList: declarationList declarations {  }
                 | declaration {}
 
 declarations: declarations declaration  { $$ = new DeclareListStmt((DeclareListStmt*)$1, (DeclareStmt*)$2);  }
-      | declaration { }
+      | declaration { $$ = $1; }
 ;
 
 declaration: genDeclaration { $$ = $1; }
@@ -186,19 +186,19 @@ loops: if
         | while
 ;
 
-if: Si boolExpr Entonces sentencesList Fin Si
-   | Si boolExpr Entonces sentencesList Sino sentencesList Fin Si
-   | Si boolExpr Entonces sentencesList else Fin Si
+if: Si boolExpr Entonces sentencesList Fin Si  { $$ = new IfStmt((Expr*)$2, (Stmt*)$4, (Stmt*)nullptr); }
+   | Si boolExpr Entonces sentencesList Sino sentencesList Fin Si  { $$ = new IfStmt((Expr*)$2, (Stmt*)$4, (Stmt*)$6); }
+   | Si boolExpr Entonces sentencesList else Fin Si { $$ = new IfStmt((Expr*)$2, (Stmt*)$4, (Stmt*)$5); }
 ;
 
-else: else elseIf
-      | elseIf
+else: else elseIf { $$ = new BlockStmt((Stmt*)$1, (Stmt*)$2); }
+      | elseIf { $$ = $1; }
 ;
 
 elseIf: SinoSi boolExpr Entonces sentencesList
 ;
 
-for: Para define Hasta expr Haga sentencesList Fin Para
+for: Para define Hasta expr Haga sentencesList Fin Para { $$ =new ForStmt((AssignStmt*)$2, (Expr*)$4, (Stmt*)$6); }
 ;
 
 define: ID Assign expr

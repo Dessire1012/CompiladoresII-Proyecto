@@ -1,7 +1,7 @@
 /* ExprAst.hpp.  Generated automatically by treecc */
 #ifndef __yy_ExprAst_hpp
 #define __yy_ExprAst_hpp
-#line 3 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 3 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 
     #include <string>
     #include <iostream>
@@ -20,8 +20,8 @@ const int Stmt_kind = 12;
 const int BinaryExpr_kind = 4;
 const int NumExpr_kind = 5;
 const int IdExpr_kind = 6;
-const int DeclareList_kind = 20;
-const int DeclareVar_kind = 21;
+const int DeclareList_kind = 22;
+const int DeclareVar_kind = 23;
 const int AddExpr_kind = 7;
 const int SubExpr_kind = 8;
 const int LTExpr_kind = 9;
@@ -30,10 +30,12 @@ const int NeExpr_kind = 11;
 const int BlockStmt_kind = 13;
 const int PrintStmt_kind = 14;
 const int IfStmt_kind = 15;
-const int AssignStmt_kind = 16;
-const int WhileStmt_kind = 17;
-const int DeclareListStmt_kind = 18;
-const int DeclareStmt_kind = 19;
+const int ElseIfStmt_kind = 16;
+const int ForStmt_kind = 17;
+const int AssignStmt_kind = 18;
+const int WhileStmt_kind = 19;
+const int DeclareListStmt_kind = 20;
+const int DeclareStmt_kind = 21;
 
 class ASTNode;
 class Expr;
@@ -52,6 +54,8 @@ class NeExpr;
 class BlockStmt;
 class PrintStmt;
 class IfStmt;
+class ElseIfStmt;
+class ForStmt;
 class AssignStmt;
 class WhileStmt;
 class DeclareListStmt;
@@ -70,7 +74,7 @@ private:
 	struct YYNODESTATE_block *blocks__;
 	struct YYNODESTATE_push *push_stack__;
 	int used__;
-#line 74 "ExprAst.hpp"
+#line 78 "ExprAst.hpp"
 private:
 
 	static YYNODESTATE *state__;
@@ -461,6 +465,51 @@ public:
 protected:
 
 	virtual ~IfStmt();
+
+};
+
+class ElseIfStmt : public Stmt
+{
+public:
+
+	ElseIfStmt(Expr * cond, Stmt * stmt);
+
+public:
+
+	Expr * cond;
+	Stmt * stmt;
+
+	virtual stdstring genProgramCode();
+
+	virtual int isA(int kind) const;
+	virtual const char *getKindName() const;
+
+protected:
+
+	virtual ~ElseIfStmt();
+
+};
+
+class ForStmt : public Stmt
+{
+public:
+
+	ForStmt(AssignStmt * var, Expr * cond, Stmt * block);
+
+public:
+
+	AssignStmt * var;
+	Expr * cond;
+	Stmt * block;
+
+	virtual stdstring genProgramCode();
+
+	virtual int isA(int kind) const;
+	virtual const char *getKindName() const;
+
+protected:
+
+	virtual ~ForStmt();
 
 };
 

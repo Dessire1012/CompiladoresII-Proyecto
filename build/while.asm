@@ -7,10 +7,10 @@ start:
 
 
 	mov dword [ebp + 4], 1
-while4
+while4:
 	mov edx, 1
 	cmp edx, dword [ebp + 4]
-	je while4
+	jne endwhile4
 
 	mov eax, 1
 	mov ebx, dword [ebp + 4]
@@ -25,5 +25,5 @@ while4
 
 	mov eax, dword [ebp - 8]
 	mov dword [ebp + 4], eax
-	jne endwhile4
+	jmp while4
 endwhile4:

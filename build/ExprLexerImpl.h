@@ -2,9 +2,9 @@
 #define yyHEADER_H 1
 #define yyIN_HEADER 1
 
-#line 6 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprLexerImpl.h"
+#line 6 "/home/jorge/CompiladoresII-Proyecto/build/ExprLexerImpl.h"
 
-#line 8 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprLexerImpl.h"
+#line 8 "/home/jorge/CompiladoresII-Proyecto/build/ExprLexerImpl.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -487,6 +487,6 @@ extern int yylex (yyscan_t yyscanner);
 #line 108 "ExprLexerImpl.l"
 
 
-#line 491 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprLexerImpl.h"
+#line 491 "/home/jorge/CompiladoresII-Proyecto/build/ExprLexerImpl.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

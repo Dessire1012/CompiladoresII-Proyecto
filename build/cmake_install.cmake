@@ -1,4 +1,4 @@
-# Install script for directory: /home/dessi/Downloads/CompiladoresII-Proyecto
+# Install script for directory: /home/jorge/CompiladoresII-Proyecto
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/dessi/Downloads/CompiladoresII-Proyecto/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jorge/CompiladoresII-Proyecto/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

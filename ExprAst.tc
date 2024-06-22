@@ -77,6 +77,17 @@
     Stmt *stmt2;
 }
 
+%node ElseIfStmt Stmt = {
+    Expr *cond;
+    Stmt *stmt;
+}
+
+%node ForStmt Stmt = {
+    AssignStmt *var;
+    Expr *cond;
+    Stmt *block;
+}
+
 %node AssignStmt Stmt = {
     IdExpr *varName;
     Expr *value;
@@ -197,22 +208,77 @@ genProgramCode(PrintStmt) {
 }
 
 genProgramCode(IfStmt) {
-    
+    int offset = addOffset();
+    stdstring cond = node->cond->genProgramCode();
+    stdstring s1 = node->stmt1->genProgramCode();
+    stdstring s2 = "";
+    if (node->stmt2 != nullptr) {
+        s2 = node->stmt2->genProgramCode();
+    }
+
+    node->code = cond + "\n";
+
+    node->code += "\n\tmov edx, 1";
+    node->code += "\n\tcmp edx, " + node->cond->place;
+    node->code += "\n\tjne false"+std::to_string(offset);
+    node->code += "\n" + s1 + "\n\tjmp endif"+std::to_string(offset);
+    node->code += "\n\nfalse"+std::to_string(offset)+":";
+    node->code += s2 ;
+    node->code += "\n\nendif"+std::to_string(offset)+":";
+
+    return node->code;
+}
+
+genProgramCode(ElseIfStmt) {
+    stdstring cond = node->cond->genProgramCode();
+    stdstring s = node->stmt->genProgramCode();
+
+    node->code = cond + "\n";
+
+    node->code += "\n\tmov edx, 1";
+    node->code += "\n\tcmp edx, " + node->cond->place;
+    node->code += "\n\tjne endelif"+std::to_string(offset);
+    node->code += "\n" + s;
+    node->code += "\n\nendelif"+std::to_string(offset)+":";
+
+    return node->code;
 }
 
 genProgramCode(WhileStmt) {
     int offset = addOffset();
-    
+
     stdstring cond = node->cond->genProgramCode();
     stdstring block = node->block->genProgramCode();
 
-    node->code = "\nwhile" + std::to_string(offset); + ":";
+
+    node->code = "\nwhile" + std::to_string(offset) + ":";
     node->code += cond;
     node->code += "\n\tmov edx, 1";
     node->code += "\n\tcmp edx, " + node->cond->place;
-    node->code += "\n\tje while" + std::to_string(offset);
-    node->code += block + "\n\tjne endwhile" + std::to_string(offset);
+    node->code += "\n\tjne endwhile" + std::to_string(offset);
+    node->code += block + "\n\tjmp while" + std::to_string(offset);
     node->code += "\nendwhile" + std::to_string(offset) + ":";
+
+    return node->code;
+}
+
+genProgramCode(ForStmt) {
+    int offset = addOffset();
+
+    stdstring assign = node->var->genProgramCode();
+    stdstring cond = node->cond->genProgramCode();
+    stdstring block = node->block->genProgramCode();
+
+    node->code = assign;
+
+    node->code += "\nfor" + std::to_string(offset) + ":";
+    node->code += "\n\tmov edx, " + node->var->place;
+    node->code += "\n\tcmp edx, " + node->cond->place;
+    node->code += "\n\tjg endfor" + std::to_string(offset);
+    node->code += block;
+    node->code += "\n\tadd " + node->var->place + ", 1";
+    node->code +="\n\tjmp for" + std::to_string(offset);
+    node->code += "\nendfor" + std::to_string(offset) + ":";
 
     return node->code;
 }

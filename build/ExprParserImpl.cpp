@@ -64,7 +64,7 @@
 #define YYPULL 1
 
 /* "%code top" blocks.  */
-#line 7 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 7 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
 
 
 #include <iostream>
@@ -80,7 +80,7 @@ void yyerror(const ExprParser& parser, const char *msg)
 }
 
 
-#line 84 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 84 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
 
 
 
@@ -1722,229 +1722,265 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* input: start  */
-#line 107 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 107 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
              { parser.createAsm(yyvsp[0]->genProgramCode()); }
-#line 1728 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1728 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 4: /* start: declarationList "Inicio" sentencesList "Fin"  */
-#line 110 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 110 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                                  { yyval = new Program((DeclareListStmt*)yyvsp[-3], (Stmt*)yyvsp[-1]); }
-#line 1734 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1734 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 9: /* declarationList: declarationList declarations  */
-#line 117 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 117 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                               {  }
-#line 1740 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1740 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 10: /* declarationList: declaration  */
-#line 118 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 118 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                               {}
-#line 1746 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1746 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 11: /* declarations: declarations declaration  */
-#line 120 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 120 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                         { yyval = new DeclareListStmt((DeclareListStmt*)yyvsp[-1], (DeclareStmt*)yyvsp[0]);  }
-#line 1752 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1752 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 12: /* declarations: declaration  */
-#line 121 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
-                    { }
-#line 1758 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 121 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+                    { yyval = yyvsp[0]; }
+#line 1758 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 13: /* declaration: genDeclaration  */
-#line 124 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 124 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                             { yyval = yyvsp[0]; }
-#line 1764 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1764 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 15: /* genDeclaration: genDeclaration "," "ID"  */
-#line 128 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 128 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                         { yyval = new DeclareList((DeclareList*)yyvsp[-2], new DeclareVar((IdExpr*)yyvsp[0])); }
-#line 1770 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1770 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 16: /* genDeclaration: dataType "ID"  */
-#line 129 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 129 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                     { yyval = new DeclareVar((IdExpr*)yyvsp[0]); }
-#line 1776 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1776 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 17: /* sentencesList: sentencesList sentence  */
-#line 132 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 132 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                       { yyval = new BlockStmt(yyvsp[-1], yyvsp[0]); }
-#line 1782 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1782 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 18: /* sentencesList: sentence  */
-#line 133 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 133 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                  { yyval = yyvsp[0]; }
-#line 1788 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1788 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 28: /* print: "Escriba" expr  */
-#line 148 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 148 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                      { yyval = new PrintStmt((Expr*)yyvsp[0]); }
-#line 1794 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1794 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 32: /* print: "Escriba" "ID" "[" expr "]"  */
-#line 152 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 152 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                                   { }
-#line 1800 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1800 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 34: /* assign: "ID" "<-" expr  */
-#line 156 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 156 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                        {  yyval = new AssignStmt((IdExpr*)yyvsp[-2], (Expr*)yyvsp[0]); }
-#line 1806 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1806 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+    break;
+
+  case 51: /* if: "Si" boolExpr "Entonces" sentencesList "Fin" "Si"  */
+#line 189 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+                                               { yyval = new IfStmt((Expr*)yyvsp[-4], (Stmt*)yyvsp[-2], (Stmt*)nullptr); }
+#line 1812 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+    break;
+
+  case 52: /* if: "Si" boolExpr "Entonces" sentencesList "Sino" sentencesList "Fin" "Si"  */
+#line 190 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+                                                                   { yyval = new IfStmt((Expr*)yyvsp[-6], (Stmt*)yyvsp[-4], (Stmt*)yyvsp[-2]); }
+#line 1818 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+    break;
+
+  case 53: /* if: "Si" boolExpr "Entonces" sentencesList else "Fin" "Si"  */
+#line 191 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+                                                    { yyval = new IfStmt((Expr*)yyvsp[-5], (Stmt*)yyvsp[-3], (Stmt*)yyvsp[-2]); }
+#line 1824 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+    break;
+
+  case 54: /* else: else elseIf  */
+#line 194 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+                  { yyval = new BlockStmt((Stmt*)yyvsp[-1], (Stmt*)yyvsp[0]); }
+#line 1830 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+    break;
+
+  case 55: /* else: elseIf  */
+#line 195 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+               { yyval = yyvsp[0]; }
+#line 1836 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+    break;
+
+  case 57: /* for: "Para" define "Hasta" expr "Haga" sentencesList "Fin" "Para"  */
+#line 201 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
+                                                        { yyval =new ForStmt((AssignStmt*)yyvsp[-6], (Expr*)yyvsp[-4], (Stmt*)yyvsp[-2]); }
+#line 1842 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 59: /* while: "Mientras" boolExpr "Haga" sentencesList "Fin" "Mientras"  */
-#line 207 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 207 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                                          { yyval = new  WhileStmt((Expr*)yyvsp[-4], (Stmt*)yyvsp[-2]); }
-#line 1812 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1848 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 91: /* boolExpr: boolExpr "O" boolTerm  */
-#line 261 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 261 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                               { }
-#line 1818 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1854 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 92: /* boolExpr: boolTerm  */
-#line 262 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 262 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                  {  yyval = yyvsp[0]; }
-#line 1824 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1860 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 93: /* boolTerm: boolTerm "Y" boolFact  */
-#line 265 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 265 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                               { }
-#line 1830 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1866 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 94: /* boolTerm: boolFact  */
-#line 266 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 266 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                  {  yyval = yyvsp[0]; }
-#line 1836 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1872 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 95: /* boolFact: "(" boolExpr ")"  */
-#line 269 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 269 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                                     { }
-#line 1842 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1878 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 96: /* boolFact: boolOp  */
-#line 270 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 270 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                {  yyval = yyvsp[0]; }
-#line 1848 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1884 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 97: /* boolOp: expr "<" expr  */
-#line 273 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 273 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                      { }
-#line 1854 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1890 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 98: /* boolOp: expr ">" expr  */
-#line 274 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 274 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                      { }
-#line 1860 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1896 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 99: /* boolOp: expr "=" expr  */
-#line 275 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 275 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                      { }
-#line 1866 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1902 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 100: /* boolOp: expr "<>" expr  */
-#line 276 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 276 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                       { }
-#line 1872 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1908 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 101: /* boolOp: expr "<=" expr  */
-#line 277 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 277 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                       { }
-#line 1878 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1914 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 102: /* boolOp: expr ">=" expr  */
-#line 278 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 278 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                       { }
-#line 1884 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1920 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 103: /* expr: expr "+" term  */
-#line 281 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 281 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                       {  yyval = new AddExpr((Expr*)yyvsp[-2], (Expr*)yyvsp[0]); }
-#line 1890 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1926 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 104: /* expr: expr "-" term  */
-#line 282 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 282 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                         {  yyval = new SubExpr((Expr*)yyvsp[-2], (Expr*)yyvsp[0]); }
-#line 1896 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1932 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 105: /* expr: term  */
-#line 283 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 283 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
              { yyval = yyvsp[0]; }
-#line 1902 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1938 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 106: /* term: term "*" factor  */
-#line 286 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 286 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                          { }
-#line 1908 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1944 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 107: /* term: term "Div" factor  */
-#line 287 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 287 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                         { }
-#line 1914 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1950 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 108: /* term: term "Mod" factor  */
-#line 288 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 288 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                         { }
-#line 1920 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1956 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 109: /* term: factor  */
-#line 289 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 289 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                {  yyval = yyvsp[0]; }
-#line 1926 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1962 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 110: /* factor: "(" expr ")"  */
-#line 292 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 292 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                               { }
-#line 1932 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1968 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 111: /* factor: "number"  */
-#line 293 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 293 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
                {  yyval = yyvsp[0]; }
-#line 1938 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1974 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
   case 112: /* factor: Id  */
-#line 294 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 294 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
             {  yyval = yyvsp[0]; }
-#line 1944 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1980 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 
 
-#line 1948 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
+#line 1984 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
 
       default: break;
     }

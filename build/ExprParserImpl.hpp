@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_HOME_DESSI_DOWNLOADS_COMPILADORESII_PROYECTO_BUILD_EXPRPARSERIMPL_HPP_INCLUDED
-# define YY_YY_HOME_DESSI_DOWNLOADS_COMPILADORESII_PROYECTO_BUILD_EXPRPARSERIMPL_HPP_INCLUDED
+#ifndef YY_YY_HOME_JORGE_COMPILADORESII_PROYECTO_BUILD_EXPRPARSERIMPL_HPP_INCLUDED
+# define YY_YY_HOME_JORGE_COMPILADORESII_PROYECTO_BUILD_EXPRPARSERIMPL_HPP_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 23 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprParserImpl.y"
+#line 23 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
 
 #include <string>
 #include <variant>
@@ -59,7 +59,7 @@ using ParserValueType = ASTNode*;
 #define YYSTYPE_IS_DECLARED 1
 
 
-#line 63 "/home/dessi/Downloads/CompiladoresII-Proyecto/build/ExprParserImpl.hpp"
+#line 63 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.hpp"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -151,4 +151,4 @@ typedef int YYSTYPE;
 int yyparse (ExprParser& parser);
 
 
-#endif /* !YY_YY_HOME_DESSI_DOWNLOADS_COMPILADORESII_PROYECTO_BUILD_EXPRPARSERIMPL_HPP_INCLUDED  */
+#endif /* !YY_YY_HOME_JORGE_COMPILADORESII_PROYECTO_BUILD_EXPRPARSERIMPL_HPP_INCLUDED  */

@@ -1,5 +1,5 @@
 /* ExprAst.cpp.  Generated automatically by treecc */
-#line 12 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 12 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 
 	#include "ExprAst.hpp"
 
@@ -373,7 +373,7 @@ Program::~Program()
 stdstring Program::genProgramCode()
 {
 	Program *node = this;
-#line 110 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 121 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    stdstring declareStmts = node->declareStmts->genProgramCode();
 	    node->code = "\n\tsub esp, " + std::to_string(offset) + "\n";
@@ -466,7 +466,7 @@ NumExpr::~NumExpr()
 stdstring NumExpr::genProgramCode()
 {
 	NumExpr *node = this;
-#line 122 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 133 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    node->place = std::to_string(node->value);
 	    return "";
@@ -502,7 +502,7 @@ IdExpr::~IdExpr()
 stdstring IdExpr::genProgramCode()
 {
 	IdExpr *node = this;
-#line 127 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 138 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    node->place = vars[node->id];
 	    return "";
@@ -539,7 +539,7 @@ DeclareList::~DeclareList()
 stdstring DeclareList::genProgramCode()
 {
 	DeclareList *node = this;
-#line 220 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 286 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    stdstring varsList = node->variables->genProgramCode();
 	    stdstring newVar = node->newV->genProgramCode();
@@ -579,7 +579,7 @@ DeclareVar::~DeclareVar()
 stdstring DeclareVar::genProgramCode()
 {
 	DeclareVar *node = this;
-#line 229 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 295 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    std::cout << "DeclareVar" << code << std::endl;
 	    vars[node->newV->id] = "dword [ebp + " + std::to_string(addOffset()) + "]";
@@ -617,7 +617,7 @@ AddExpr::~AddExpr()
 stdstring AddExpr::genProgramCode()
 {
 	AddExpr *node = this;
-#line 132 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 143 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    int offset = addOffset();
 	
@@ -662,7 +662,7 @@ SubExpr::~SubExpr()
 stdstring SubExpr::genProgramCode()
 {
 	SubExpr *node = this;
-#line 147 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 158 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    int offset = addOffset();
 	
@@ -707,7 +707,7 @@ LTExpr::~LTExpr()
 stdstring LTExpr::genProgramCode()
 {
 	LTExpr *node = this;
-#line 162 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 173 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    
 	}
@@ -741,7 +741,7 @@ EqExpr::~EqExpr()
 stdstring EqExpr::genProgramCode()
 {
 	EqExpr *node = this;
-#line 166 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 177 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	   
 	}
@@ -775,7 +775,7 @@ NeExpr::~NeExpr()
 stdstring NeExpr::genProgramCode()
 {
 	NeExpr *node = this;
-#line 170 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 181 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    
 	}
@@ -811,7 +811,7 @@ BlockStmt::~BlockStmt()
 stdstring BlockStmt::genProgramCode()
 {
 	BlockStmt *node = this;
-#line 174 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 185 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{    
 	    stdstring s1 = node->stmt1->genProgramCode();
 	    stdstring s2 = node->stmt2->genProgramCode();
@@ -851,7 +851,7 @@ PrintStmt::~PrintStmt()
 stdstring PrintStmt::genProgramCode()
 {
 	PrintStmt *node = this;
-#line 183 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 194 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    stdstring s1 = node->expr->genProgramCode();
 	
@@ -900,11 +900,29 @@ IfStmt::~IfStmt()
 stdstring IfStmt::genProgramCode()
 {
 	IfStmt *node = this;
-#line 199 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 210 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
-	    
+	    int offset = addOffset();
+	    stdstring cond = node->cond->genProgramCode();
+	    stdstring s1 = node->stmt1->genProgramCode();
+	    stdstring s2 = "";
+	    if (node->stmt2 != nullptr) {
+	        s2 = node->stmt2->genProgramCode();
+	    }
+	
+	    node->code = cond + "\n";
+	
+	    node->code += "\n\tmov edx, 1";
+	    node->code += "\n\tcmp edx, " + node->cond->place;
+	    node->code += "\n\tjne false"+std::to_string(offset);
+	    node->code += "\n" + s1 + "\n\tjmp endif"+std::to_string(offset);
+	    node->code += "\n\nfalse"+std::to_string(offset)+":";
+	    node->code += s2 ;
+	    node->code += "\n\nendif"+std::to_string(offset)+":";
+	
+	    return node->code;
 	}
-#line 908 "ExprAst.cpp"
+#line 926 "ExprAst.cpp"
 }
 
 int IfStmt::isA(int kind) const
@@ -918,6 +936,107 @@ int IfStmt::isA(int kind) const
 const char *IfStmt::getKindName() const
 {
 	return "IfStmt";
+}
+
+ElseIfStmt::ElseIfStmt(Expr * cond, Stmt * stmt)
+	: Stmt()
+{
+	this->kind__ = ElseIfStmt_kind;
+	this->cond = cond;
+	this->stmt = stmt;
+}
+
+ElseIfStmt::~ElseIfStmt()
+{
+	// not used
+}
+
+stdstring ElseIfStmt::genProgramCode()
+{
+	ElseIfStmt *node = this;
+#line 232 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
+	{
+	    stdstring cond = node->cond->genProgramCode();
+	    stdstring s = node->stmt->genProgramCode();
+	
+	    node->code = cond + "\n";
+	
+	    node->code += "\n\tmov edx, 1";
+	    node->code += "\n\tcmp edx, " + node->cond->place;
+	    node->code += "\n\tjne endelif"+std::to_string(offset);
+	    node->code += "\n" + s;
+	    node->code += "\n\nendelif"+std::to_string(offset)+":";
+	
+	    return node->code;
+	}
+#line 973 "ExprAst.cpp"
+}
+
+int ElseIfStmt::isA(int kind) const
+{
+	if(kind == ElseIfStmt_kind)
+		return 1;
+	else
+		return Stmt::isA(kind);
+}
+
+const char *ElseIfStmt::getKindName() const
+{
+	return "ElseIfStmt";
+}
+
+ForStmt::ForStmt(AssignStmt * var, Expr * cond, Stmt * block)
+	: Stmt()
+{
+	this->kind__ = ForStmt_kind;
+	this->var = var;
+	this->cond = cond;
+	this->block = block;
+}
+
+ForStmt::~ForStmt()
+{
+	// not used
+}
+
+stdstring ForStmt::genProgramCode()
+{
+	ForStmt *node = this;
+#line 265 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
+	{
+	    int offset = addOffset();
+	
+	    stdstring assign = node->var->genProgramCode();
+	    stdstring cond = node->cond->genProgramCode();
+	    stdstring block = node->block->genProgramCode();
+	
+	    node->code = assign;
+	
+	    node->code += "\nfor" + std::to_string(offset) + ":";
+	    node->code += "\n\tmov edx, " + node->var->place;
+	    node->code += "\n\tcmp edx, " + node->cond->place;
+	    node->code += "\n\tjg endfor" + std::to_string(offset);
+	    node->code += block;
+	    node->code += "\n\tadd " + node->var->place + ", 1";
+	    node->code +="\n\tjmp for" + std::to_string(offset);
+	    node->code += "\nendfor" + std::to_string(offset) + ":";
+	
+	    return node->code;
+	}
+#line 1027 "ExprAst.cpp"
+}
+
+int ForStmt::isA(int kind) const
+{
+	if(kind == ForStmt_kind)
+		return 1;
+	else
+		return Stmt::isA(kind);
+}
+
+const char *ForStmt::getKindName() const
+{
+	return "ForStmt";
 }
 
 AssignStmt::AssignStmt(IdExpr * varName, Expr * value)
@@ -936,7 +1055,7 @@ AssignStmt::~AssignStmt()
 stdstring AssignStmt::genProgramCode()
 {
 	AssignStmt *node = this;
-#line 253 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 319 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    stdstring expr = node->value->genProgramCode();
 	
@@ -953,7 +1072,7 @@ stdstring AssignStmt::genProgramCode()
 	    return node->code;
 	  
 	}
-#line 957 "ExprAst.cpp"
+#line 1076 "ExprAst.cpp"
 }
 
 int AssignStmt::isA(int kind) const
@@ -985,24 +1104,25 @@ WhileStmt::~WhileStmt()
 stdstring WhileStmt::genProgramCode()
 {
 	WhileStmt *node = this;
-#line 203 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 247 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    int offset = addOffset();
-	    
+	
 	    stdstring cond = node->cond->genProgramCode();
 	    stdstring block = node->block->genProgramCode();
 	
-	    node->code = "\nwhile" + std::to_string(offset); + ":";
+	
+	    node->code = "\nwhile" + std::to_string(offset) + ":";
 	    node->code += cond;
 	    node->code += "\n\tmov edx, 1";
 	    node->code += "\n\tcmp edx, " + node->cond->place;
-	    node->code += "\n\tje while" + std::to_string(offset);
-	    node->code += block + "\n\tjne endwhile" + std::to_string(offset);
+	    node->code += "\n\tjne endwhile" + std::to_string(offset);
+	    node->code += block + "\n\tjmp while" + std::to_string(offset);
 	    node->code += "\nendwhile" + std::to_string(offset) + ":";
 	
 	    return node->code;
 	}
-#line 1006 "ExprAst.cpp"
+#line 1126 "ExprAst.cpp"
 }
 
 int WhileStmt::isA(int kind) const
@@ -1034,7 +1154,7 @@ DeclareListStmt::~DeclareListStmt()
 stdstring DeclareListStmt::genProgramCode()
 {
 	DeclareListStmt *node = this;
-#line 237 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 303 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    stdstring declares = node->declareList->genProgramCode();
 	    stdstring stmt = node->stmt->genProgramCode();
@@ -1043,7 +1163,7 @@ stdstring DeclareListStmt::genProgramCode()
 	
 	    return node->code;
 	}
-#line 1047 "ExprAst.cpp"
+#line 1167 "ExprAst.cpp"
 }
 
 int DeclareListStmt::isA(int kind) const
@@ -1074,14 +1194,14 @@ DeclareStmt::~DeclareStmt()
 stdstring DeclareStmt::genProgramCode()
 {
 	DeclareStmt *node = this;
-#line 246 "/home/dessi/Downloads/CompiladoresII-Proyecto/ExprAst.tc"
+#line 312 "/home/jorge/CompiladoresII-Proyecto/ExprAst.tc"
 	{
 	    stdstring code = node->variables->genProgramCode();
 	    std::cout << "DeclareStmt" << std::endl;
 	    node->code = code;
 	    return node->code;
 	}
-#line 1085 "ExprAst.cpp"
+#line 1205 "ExprAst.cpp"
 }
 
 int DeclareStmt::isA(int kind) const
