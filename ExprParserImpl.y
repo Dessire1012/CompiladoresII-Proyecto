@@ -240,23 +240,34 @@ paraT: Var dataType ID
       | Var Arreglo OpenBracket Number CloseBracket De dataType ID
 ;
 
-declFuncProc: declFuncProc procedimiento
-      | declFuncProc funcion
-      | procedimiento
-      | funcion
-;
+declFuncProc: procedimiento
+    | funcion
+    | declFuncProc procedimiento
+    | declFuncProc funcion
+    ;
 
-procedimiento: Procedimiento ID Inicio sentencesList Fin
-        | Procedimiento ID OpenPar paramList ClosePar declarationList Inicio sentencesList Fin
-        | Procedimiento ID OpenPar paramList ClosePar Inicio sentencesList Fin     
-;
+procedimiento:
+      Procedimiento ID procedimientoBody
+    ;
 
-funcion: Funcion ID Colon dataType Inicio sentencesList Fin 
-       | Funcion ID OpenPar paramList ClosePar Colon dataType Inicio sentencesList Fin
-       | Funcion ID OpenPar ClosePar Colon dataType Inicio sentencesList Fin
-       | Funcion ID OpenPar ClosePar Colon dataType declarationList Inicio sentencesList Fin
-       | Funcion ID OpenPar paramList ClosePar Colon dataType declarationList Inicio sentencesList Fin
-;
+procedimientoBody: Inicio sentencesList Fin
+    | OpenPar paramList ClosePar declarationList Inicio sentencesList Fin
+    | OpenPar paramList ClosePar Inicio sentencesList Fin
+    ;
+
+funcion: Funcion ID funcionBody
+    ;
+
+funcionBody: Colon dataType Inicio sentencesList Fin 
+    | OpenPar paramList ClosePar Colon dataType funcionDeclList Inicio sentencesList Fin
+    | OpenPar ClosePar Colon dataType funcionDeclList Inicio sentencesList Fin
+    | OpenPar ClosePar Colon dataType Inicio sentencesList Fin
+    | OpenPar paramList ClosePar Colon dataType Inicio sentencesList Fin
+    ;
+
+funcionDeclList: declarationList
+    | declarationList funcionDeclList
+    ;
 
 boolExpr: boolExpr O boolTerm { }
       | boolTerm {  $$ = $1; }
