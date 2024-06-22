@@ -24,6 +24,3 @@ start:
 	mov eax, 1
 	mov ebx, dword [ebp - 8]
 	int 0x80
-	mov eax, 11
-	mov ebx, 10
-	int 0x80

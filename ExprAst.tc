@@ -215,10 +215,6 @@ genProgramCode(PrintStmt) {
     node->code += "\n\tmov ebx, " + node->expr->place;
     node->code += "\n\tint 0x80";
 
-     node->code += "\n\tmov eax, 11";
-    node->code += "\n\tmov ebx, 10";
-    node->code += "\n\tint 0x80";
-
     return node->code;
 }
 
