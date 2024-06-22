@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "ExprLexer.hpp"
-#include <string>
+#include "ExprAst.hpp"
 
 #define YY_DECL Token ExprLexer::nextTokenHelper(yyscan_t yyscanner, ParserValueType *lval)
 #define yyterminate() return Token::Eof
@@ -22,11 +22,13 @@
 %}
 
 %x comment
+%x strng
 
 %%
 [ \t\n]	{  }
 "//"[^\n]*\n { }
 "/*"    { BEGIN(comment); }
+\"      { BEGIN(strng); }
 "+"		{ return Token::OpAdd; }
 "-"		{ return Token::OpSub; }
 "*"		{ return Token::OpMult; }
@@ -45,10 +47,8 @@
 "<="    { return Token::Leq; }   
 ">="    { return Token::Geq; }
 
--?[0-9]+ { *lval = std::atof(yytext); return Token::Number; }
-\".*\" { *lval = std::string(yytext); return Token::Cadena; }
+-?[0-9]+ { *lval = new NumExpr(std::atof(yytext)); return Token::Number; }
 '.' { return Token::Char; }
-
 
 "escriba" { return Token::Escriba; }
 "entero" { return Token::Entero; }
@@ -65,6 +65,7 @@
 "si" { return Token::Si; }
 "entonces" { return Token::Entonces; }
 "sino" { return Token::Sino; }
+"sino si" { return Token::SinoSi; }
 "para" { return Token::Para; }
 "mientras" { return Token::Mientras; }
 "haga" { return Token::Haga; }
@@ -95,8 +96,11 @@
 "falso" { return Token::Falso; }
 "^" { return Token::Caret; }
 
-[a-zA-Z_][a-zA-Z0-9_]*	{ *lval = std::string(yytext); return Token::ID; }
+[a-zA-Z_][a-zA-Z0-9_]*	{ *lval = new IdExpr(std::string(yytext)); return Token::ID; }
 .		{ std::cerr << "Invalid symbol: " << yytext[0] << '\n'; return Token::Error; }
+
+<strng>[^"]* {  }
+<strng>\" { BEGIN(INITIAL); return Token::Cadena; }
 
 <comment>"*/" { BEGIN(INITIAL); }
 <comment>.|\n { /* Nothing */ }

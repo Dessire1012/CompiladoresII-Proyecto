@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[]) 
 {
-    if (argc != 2) {
+    if (argc != 3) {
         std::cerr << "Not enough CLI arguments\n";
         return 1;
     }
@@ -17,10 +17,12 @@ int main(int argc, char *argv[])
     }
 
     ExprLexer lexer(in);
-    ExprParser parser(lexer);
-    try {
+    ExprParser parser(lexer, argv[2]);
+     try {
         parser.parse();
-    } catch(const std::runtime_error ex){
-        std::cerr << ex.what() << "\n";   
+        std::cout << "Compiled with no errors" << std::endl;
+    }
+    catch (const std::runtime_error& ex) {
+        std::cerr << ex.what() << '\n';
     }
 }

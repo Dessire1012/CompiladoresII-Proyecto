@@ -23,11 +23,11 @@ void yyerror(const ExprParser& parser, const char *msg)
 %code requires {
 #include <string>
 #include <variant>
-#include <unordered_map>
+#include "ExprAst.hpp"
 
 class ExprParser; // Forward declaration
 
-using ParserValueType = std::variant<std::string, double>;
+using ParserValueType = ASTNode*;
 
 #define YYSTYPE ParserValueType
 #define YYSTYPE_IS_DECLARED 1
@@ -71,6 +71,7 @@ using ParserValueType = std::variant<std::string, double>;
 %token Si "Si"
 %token Entonces "Entonces"
 %token Sino "Sino"
+%token SinoSi "Sino Si"
 %token Para "Para"
 %token Mientras "Mientras"
 %token Haga "Haga"
@@ -103,186 +104,192 @@ using ParserValueType = std::variant<std::string, double>;
 
 %%
 
-input: declarationList inicio
-      | inicio
+input: start { parser.createAsm($1->genProgramCode()); }
+
+start: Inicio sentencesList Fin
+      | declarationList Inicio sentencesList Fin { $$ = new Program((DeclareListStmt*)$1, (Stmt*)$3); }
+      | types Inicio sentencesList Fin
+      | types declarationList Inicio sentencesList Fin
+      | declFuncProc Inicio sentencesList Fin
+      | declarationList declFuncProc Inicio sentencesList Fin
 ;
 
-inicio: Inicio sentencesList Fin
-       | Inicio Fin
-       | instancesList Inicio sentencesList Fin
+declarationList: declarationList declarations {  }
+                | declaration {}
+
+declarations: declarations declaration  { $$ = new DeclareListStmt((DeclareListStmt*)$1, (DeclareStmt*)$2);  }
+      | declaration { }
 ;
 
-declarationList: declarationList declaration
-                | declaration
+declaration: genDeclaration { $$ = $1; }
+      | Arreglo OpenBracket expr CloseBracket De dataType ID
 ;
 
-declaration: instances
-           | Procedimiento proc
-           | Funcion func 
-           | type
+genDeclaration: genDeclaration Comma ID { $$ = new DeclareList((DeclareList*)$1, new DeclareVar((IdExpr*)$3)); }
+      | dataType ID { $$ = new DeclareVar((IdExpr*)$2); }
 ;
 
-instancesList: instancesList instances
-                | instances
+sentencesList: sentencesList sentence { $$ = new BlockStmt($1, $2); }
+      | sentence { $$ = $1; }
 ;
 
-instances: dataT idList
-;
-
-dataT: Entero
-      | Caracter
-      | Booleano
-      | arreglo
-      | varDataT
-      | ID
-;
-
-varDataT: Var dataT
-;
-
-type: Tipo ID Es typeSpecifier
-;
-
-typeSpecifier: Entero
-            | Caracter
-            | Booleano
-            | arreglo
-;
-
-idList: idList Comma ID
-      | ID
-;
-
-func: ID OpenPar procList ClosePar Colon dataT inicio
-      | ID Colon dataT inicio
-;
-
-
-proc: ID OpenPar procList ClosePar inicio
-      | ID inicio
-;
-
-procList: procList Comma dataT ID
-        | dataT ID
-
-;
-
-arreglo: Arreglo OpenBracket expr CloseBracket De dataT
-;
-
-
-sentencesList: sentencesList sentence 
-             | sentence
-;
-
-sentence: loops
-         | singles
-;
-
-loops: for
-      | if
-      | while
-;
-
-define: ID Assign expr
-;
-
-for: Para define Hasta expr Haga sentencesList Fin Para
-;
-
-
-if: Si expr Entonces sentencesList elsePartList Fin Si
-;
-
-elsePartList: elsePartList Sino Si expr Entonces sentencesList
-           | elsePartList Sino sentencesList
-           | 
-;
-
-while: Mientras expr Haga sentencesList Fin Mientras
-;
+sentence: singles
+           | loops
 
 singles: print
         | assign
+        | assignArray
         | llamar
         | retorne
         | leer
-        |
+;
+
+print: Escriba Cadena
+      | Escriba expr { $$ = new PrintStmt((Expr*)$2); }
+      | Escriba Char
+      | print Comma expr
+      | print Comma Cadena
+      | Escriba ID OpenBracket expr CloseBracket  { }
+      | Escriba ID OpenPar expr ClosePar
+;
+
+assign: ID Assign expr {  $$ = new AssignStmt((IdExpr*)$1, (Expr*)$3); }
+      | ID Assign Char
+      | ID Assign bool
+;
+
+assignArray: ID OpenBracket expr CloseBracket Assign expr
+      | ID OpenBracket expr CloseBracket Assign Char
+      | ID OpenBracket expr CloseBracket Assign bool
+;
+
+bool: Verdadero
+    | Falso
+;
+
+llamar: Llamar Id
+;
+
+paramList: paramList Comma expr
+         | expr
+;
+
+retorne: Retorne expr
 ;
 
 leer: Lea ID
       | Lea ID OpenBracket expr CloseBracket
 ;
 
-retorne: Retorne ID listExpr { }
-      | Retorne ID { }
-      | Retorne listExpr { }
+loops: if
+        | for
+        | while
 ;
 
-llamar: Llamar ID OpenPar paramList ClosePar
-      | Llamar ID
+if: Si boolExpr Entonces sentencesList Fin Si
+   | Si boolExpr Entonces sentencesList Sino sentencesList Fin Si
+   | Si boolExpr Entonces sentencesList else Fin Si
 ;
 
-paramList: paramList Comma expr
-         | expr
-         |
+else: else elseIf
+      | elseIf
 ;
 
-print: Escriba ID { }
-      | Escriba Cadena { }
-      | Escriba ID  OpenBracket expr CloseBracket  { }
-      | Escriba expr { }
-      | Escriba ID OpenPar listExpr ClosePar { }
-      | Escriba listExpr { }
+elseIf: SinoSi boolExpr Entonces sentencesList
 ;
 
-listExpr: listExpr Comma expr
-         | listExpr expr
-         | expr
-         | 
-;  
-
-assign: ID Assign assignType { }
-      | ID OpenBracket expr CloseBracket Assign assignType { }
-      | ID Assign ID OpenPar listExpr ClosePar {}
+for: Para define Hasta expr Haga sentencesList Fin Para
 ;
 
-assignType: expr
-          | Char
-          | bool
-;           
-
-bool: Verdadero { }
-    | Falso { }
+define: ID Assign expr
 ;
 
-expr: expr OpAdd term { }
-      | expr OpSub term { }
-      | expr Mod term { }
-      | expr Div term { }
-      | expr Caret term { }
-      | expr Lt term { }
-      | expr Gt term { }
-      | expr Eq term { }
-      | expr Neq term { }
-      | expr Leq term { }
-      | expr Geq term { }
-      | expr O term { }
-      | expr Y term { }
-      | No expr { }
-      | term { }
+while: Mientras boolExpr Haga sentencesList Fin Mientras { $$ = new  WhileStmt((Expr*)$2, (Stmt*)$4); }
+;
+
+types: types typeSentence
+      | typeSentence
+;
+
+typeSentence: Tipo ID Es dataType
+      | Tipo ID Es Arreglo OpenPar expr ClosePar De dataType
+;
+
+dataType: Entero
+          | Caracter
+          | Booleano
+          | ID 
+;
+
+Id: ID
+  | prcfucId
+  | ID OpenBracket expr CloseBracket
+;
+
+prcfucId: ID OpenPar ClosePar
+      | ID OpenPar paramList ClosePar
+;
+
+paramList: paramList Comma paraT
+      | paraT
+;
+
+paraT: Var dataType ID
+      | dataType ID
+      | Arreglo OpenBracket Number CloseBracket De dataType ID
+      | Var Arreglo OpenBracket Number CloseBracket De dataType ID
+;
+
+declFuncProc: declFuncProc procedimiento
+      | declFuncProc funcion
+      | procedimiento
+      | funcion
+;
+
+procedimiento: Procedimiento ID Inicio sentencesList Fin
+        | Procedimiento ID OpenPar paramList ClosePar declarationList Inicio sentencesList Fin
+        | Procedimiento ID OpenPar paramList ClosePar Inicio sentencesList Fin     
+;
+
+funcion: Funcion ID Colon dataType Inicio sentencesList Fin 
+       | Funcion ID OpenPar paramList ClosePar Colon dataType Inicio sentencesList Fin
+       | Funcion ID OpenPar ClosePar Colon dataType Inicio sentencesList Fin
+       | Funcion ID OpenPar ClosePar Colon dataType declarationList Inicio sentencesList Fin
+       | Funcion ID OpenPar paramList ClosePar Colon dataType declarationList Inicio sentencesList Fin
+;
+
+boolExpr: boolExpr O boolTerm { }
+      | boolTerm {  $$ = $1; }
+;
+
+boolTerm: boolTerm Y boolFact { }
+      | boolFact {  $$ = $1; }
+;
+
+boolFact: OpenPar boolExpr ClosePar { }
+      | boolOp {  $$ = $1; }
+;
+
+boolOp: expr Lt expr { }
+      | expr Gt expr { }
+      | expr Eq expr { }
+      | expr Neq expr { }
+      | expr Leq expr { }
+      | expr Geq expr { }
+;
+
+expr: expr OpAdd term {  $$ = new AddExpr((Expr*)$1, (Expr*)$3); }
+      | expr OpSub term {  $$ = new SubExpr((Expr*)$1, (Expr*)$3); }
+      | term { $$ = $1; }
 ;
 
 term: term OpMult factor { }
-      | factor { }
+      | term Div factor { }
+      | term Mod factor { }
+      | factor {  $$ = $1; }
 ;
 
-factor: OpenPar listExpr ClosePar { }
-      | ID OpenBracket expr CloseBracket { }
-      | ID OpenPar listExpr ClosePar {}
-      | Number { }
-      | ID { }
-      | Cadena { }
-      | Char { }
-      | bool { }
+factor: OpenPar expr ClosePar { }
+      | Number {  $$ = $1; }
+      | Id  {  $$ = $1; } 
 ;

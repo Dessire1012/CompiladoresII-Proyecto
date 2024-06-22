@@ -3,40 +3,27 @@
 #include <iostream>
 
 #include "ExprLexer.hpp"
+#include <vector>
+#include <unordered_map>
+#include <iostream>
+#include <fstream>
 
 class ExprParser {
 public:
-    ExprParser(ExprLexer& lexer) :lexer(lexer){
-       
-    }
+    ExprParser(ExprLexer& lexer, const std::string& codeASM)
+      : lexer(lexer), codeASM(codeASM)
+    {}
 
     int parse();
 
     ExprLexer& getLexer() const
     { return lexer; }
 
-    double constValue(const std::string& cname) const;
-
-    void addVal(const std::string& key, double value) {
-        vars[key] = value;
-    }
-
-    double getVal(const std::string& key) {
-        return vars[key];
-    }
-
-    double printVal(const std::string& key) {
-        std::cout << vars[key] << "\n";
-        return vars[key];
-    }
-
-    std::string printS (const std::string& cadena) {
-        std::cout << cadena << "\n";
-        return cadena;
-    }
+    void createAsm(const std::string& program);
 
 private:
     ExprLexer& lexer;
-    std::unordered_map<std::string, double> vars;
+    const std::string& codeASM;
+    std::vector<ASTNode*> stmts;
 };
 #endif
