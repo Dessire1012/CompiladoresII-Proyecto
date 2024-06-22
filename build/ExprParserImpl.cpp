@@ -1722,7 +1722,7 @@ yyreduce:
     {
   case 2: /* input: start  */
 #line 107 "/home/jorge/CompiladoresII-Proyecto/ExprParserImpl.y"
-             { parser.createAsm(yyvsp[0]->genProgramCode()); }
+             {}
 #line 1727 "/home/jorge/CompiladoresII-Proyecto/build/ExprParserImpl.cpp"
     break;
 

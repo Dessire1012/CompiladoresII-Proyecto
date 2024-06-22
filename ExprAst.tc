@@ -57,8 +57,11 @@
 %node AddExpr BinaryExpr
 %node SubExpr BinaryExpr
 %node LTExpr BinaryExpr
+%node GTExpr BinaryExpr
 %node EqExpr BinaryExpr
-%node NeExpr BinaryExpr
+%node NeqExpr BinaryExpr
+%node LEQExpr BinaryExpr
+%node GEQExpr BinaryExpr
 
 %node Stmt ASTNode %abstract %typedef
 
@@ -178,7 +181,15 @@ genProgramCode(EqExpr) {
    
 }
 
-genProgramCode(NeExpr) {
+genProgramCode(NeqExpr) {
+    
+}
+
+genProgramCode(LEQExpr) {
+    
+}
+
+genProgramCode(GEQExpr) {
     
 }
 
