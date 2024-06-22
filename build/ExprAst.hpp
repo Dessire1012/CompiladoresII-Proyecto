@@ -16,26 +16,29 @@
 const int ASTNode_kind = 1;
 const int Expr_kind = 2;
 const int Program_kind = 3;
-const int Stmt_kind = 12;
+const int Stmt_kind = 15;
 const int BinaryExpr_kind = 4;
 const int NumExpr_kind = 5;
 const int IdExpr_kind = 6;
-const int DeclareList_kind = 22;
-const int DeclareVar_kind = 23;
+const int DeclareList_kind = 25;
+const int DeclareVar_kind = 26;
 const int AddExpr_kind = 7;
 const int SubExpr_kind = 8;
 const int LTExpr_kind = 9;
-const int EqExpr_kind = 10;
-const int NeExpr_kind = 11;
-const int BlockStmt_kind = 13;
-const int PrintStmt_kind = 14;
-const int IfStmt_kind = 15;
-const int ElseIfStmt_kind = 16;
-const int ForStmt_kind = 17;
-const int AssignStmt_kind = 18;
-const int WhileStmt_kind = 19;
-const int DeclareListStmt_kind = 20;
-const int DeclareStmt_kind = 21;
+const int GTExpr_kind = 10;
+const int EqExpr_kind = 11;
+const int NeqExpr_kind = 12;
+const int LEQExpr_kind = 13;
+const int GEQExpr_kind = 14;
+const int BlockStmt_kind = 16;
+const int PrintStmt_kind = 17;
+const int IfStmt_kind = 18;
+const int ElseIfStmt_kind = 19;
+const int ForStmt_kind = 20;
+const int AssignStmt_kind = 21;
+const int WhileStmt_kind = 22;
+const int DeclareListStmt_kind = 23;
+const int DeclareStmt_kind = 24;
 
 class ASTNode;
 class Expr;
@@ -49,8 +52,11 @@ class DeclareVar;
 class AddExpr;
 class SubExpr;
 class LTExpr;
+class GTExpr;
 class EqExpr;
-class NeExpr;
+class NeqExpr;
+class LEQExpr;
+class GEQExpr;
 class BlockStmt;
 class PrintStmt;
 class IfStmt;
@@ -74,7 +80,7 @@ private:
 	struct YYNODESTATE_block *blocks__;
 	struct YYNODESTATE_push *push_stack__;
 	int used__;
-#line 78 "ExprAst.hpp"
+#line 84 "ExprAst.hpp"
 private:
 
 	static YYNODESTATE *state__;
@@ -364,6 +370,25 @@ protected:
 
 };
 
+class GTExpr : public BinaryExpr
+{
+public:
+
+	GTExpr(Expr * expr1, Expr * expr2);
+
+public:
+
+	virtual stdstring genProgramCode();
+
+	virtual int isA(int kind) const;
+	virtual const char *getKindName() const;
+
+protected:
+
+	virtual ~GTExpr();
+
+};
+
 class EqExpr : public BinaryExpr
 {
 public:
@@ -383,11 +408,11 @@ protected:
 
 };
 
-class NeExpr : public BinaryExpr
+class NeqExpr : public BinaryExpr
 {
 public:
 
-	NeExpr(Expr * expr1, Expr * expr2);
+	NeqExpr(Expr * expr1, Expr * expr2);
 
 public:
 
@@ -398,7 +423,45 @@ public:
 
 protected:
 
-	virtual ~NeExpr();
+	virtual ~NeqExpr();
+
+};
+
+class LEQExpr : public BinaryExpr
+{
+public:
+
+	LEQExpr(Expr * expr1, Expr * expr2);
+
+public:
+
+	virtual stdstring genProgramCode();
+
+	virtual int isA(int kind) const;
+	virtual const char *getKindName() const;
+
+protected:
+
+	virtual ~LEQExpr();
+
+};
+
+class GEQExpr : public BinaryExpr
+{
+public:
+
+	GEQExpr(Expr * expr1, Expr * expr2);
+
+public:
+
+	virtual stdstring genProgramCode();
+
+	virtual int isA(int kind) const;
+	virtual const char *getKindName() const;
+
+protected:
+
+	virtual ~GEQExpr();
 
 };
 
